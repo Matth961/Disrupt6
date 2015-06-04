@@ -1,0 +1,42 @@
+import datetime
+import urllib2
+
+#list of domains to use
+test_list = ["https://www.amazon.com/robots.txt",
+             "https://www.ebay.com/robots.txt",
+             "https://www.yahoo.com/robots.txt",
+             "https://www.youtube.com/robots.txt",
+             "http://www.google.com/robots.txt",
+             "http://www.taobao.com/robots.txt",
+             #"https://twitter.com/robots.txt"
+             ]
+
+#Funtion takes a url as a string and returns name of site.
+def shorten_url(url):
+    x=0
+    y=0
+    x = url.find(".")
+    url = url[x+1:]
+    y = url.find(".")
+    url = url[0:y]
+    return url
+
+def create_file(domain_list):
+    for domain in domain_list:
+        file_name = shorten_url(domain)+".txt"
+        f = open(file_name,"w")
+        f.close
+    return
+
+create_file(test_list)
+
+for domain in test_list:
+    file_name = shorten_url(domain)+".txt"
+    response = urllib2.urlopen(domain)
+    html = response.read()
+    f = open(file_name, 'a')
+    f.write("This is a robots.txt file\n")
+    print >> f, html
+    print "Done updating " +file_name
+    response.close
+    f.close
